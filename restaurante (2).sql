@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-01-2026 a las 22:35:24
+-- Tiempo de generación: 12-01-2026 a las 02:26:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -41,7 +41,8 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id_cliente`, `nombre_cliente`, `telefono`, `email_cliente`, `fecha_registro`, `password`) VALUES
-(1, 'douglas', '123123', 'douglasgv0502@gmail.com', '2026-01-10 17:44:18', '$2y$10$.JopWlCIrIYSjP1JyzEW.Oddi1Av.TYXK2nlOFYjnftoNw6GHbKAS');
+(1, 'douglas', '123123', 'douglasgv0502@gmail.com', '2026-01-10 17:44:18', '$2y$10$.JopWlCIrIYSjP1JyzEW.Oddi1Av.TYXK2nlOFYjnftoNw6GHbKAS'),
+(2, 'gustavo', '123123213', 'gustavo@gmail.com', '2026-01-12 00:46:14', '$2y$10$XkAytx9AknUStSCuWdSmaunJ.3cSmQTLBILEucx.I5ACucn17GOM6');
 
 -- --------------------------------------------------------
 
@@ -278,7 +279,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `comentarios`
