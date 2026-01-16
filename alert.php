@@ -15,7 +15,7 @@
     </div>
 
     <script>
-        // Esperar 3 segundos y cerrar la alerta usando la API de Bootstrap
+        // Esperar 3 segundos y cerrar la alerta usando Bootstrap
         setTimeout(function() {
             const alerta = document.getElementById('alerta-flotante');
             if (alerta) {

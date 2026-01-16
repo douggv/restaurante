@@ -1,15 +1,22 @@
 <?php
-    // SIEMPRE debe ser lo primero
-    session_start(); 
-    
-    include '../../../app/config.php';
+    // 1. Verificación inteligente de sesión
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
-    if(!isset($_SESSION['sesion'])){
-        // No es necesario el echo aquí porque el header lo redirigirá
+    // 2. Carga única de configuración
+    // Usamos require_once para que si ya se cargó en el index, no lo vuelva a intentar
+    require_once __DIR__ . '/../../../app/config.php';
+
+    // 3. Lógica de control de acceso
+    if (!isset($_SESSION['sesion'])) {
         $_SESSION['mensaje'] = "Debes iniciar sesión para acceder al área de clientes";
-        $_SESSION['color'] = "alert alert-warning";
-        header('Location: '.$URL.'/login.php');
-        exit(); // SIEMPRE usa exit() después de un header de redirección
+        $_SESSION['icon_mensaje'] = "warning"; // Útil para SweetAlert o iconos
+        
+        header('Location: ' . $URL . '/login.php');
+        exit(); 
+    } else {
+        $usuario_sesion = $_SESSION['sesion'];
     }
 ?>
 

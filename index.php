@@ -77,29 +77,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="bi bi-egg-fried me-2"></i><?php  echo APP_NAME; ?>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#nosotros">Sobre Nosotros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#menu">Menú</a></li>
-                    <li class="nav-item ms-lg-3">
-                        <a class="btn btn-outline-light btn-sm px-3" href="login.php">Iniciar Sesión</a>
-                    </li>
-                    <li class="nav-item ms-lg-2">
-                        <a class="btn btn-reserva btn-sm" href="register.php">Registrarse</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include 'layout/nav.php'; ?>
 
     <header class="hero">
         <div class="container">
