@@ -90,3 +90,7 @@
             </div>
         </div>
     </section>
+
+
+
+<?php include '../layouts/parte2.php'; ?>    

@@ -17,7 +17,7 @@
                     <a class="nav-link text-white text-uppercase small px-3" href="../views/menu.php">Menú</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white text-uppercase small px-3" href="../views/reservar.php">Reservar Mesa</a>
+                    <a class="nav-link text-white text-uppercase small px-3" href="../views/mesas.php">Reservar Mesa</a>
                 </li>
 
                 <?php if (isset($usuario_sesion)): ?>
