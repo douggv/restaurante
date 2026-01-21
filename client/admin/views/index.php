@@ -47,7 +47,13 @@
 
         <ul class="list-unstyled components">
             <li class="active">
-                <a href="#"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+                <a href="#"><i class="bi bi-speedometer2 me-2"></i>Panel</a>
+            </li>
+            <li>
+                <a href="#"><i class="bi bi-calendar me-2"></i>Reservas</a>
+            </li>
+            <li>
+                <a href="#"><i class="bi bi-table me-2"></i>Gestion de Mesas</a>
             </li>
             <li>
                 <a href="#"><i class="bi bi-journal-text me-2"></i> Ver Platos</a>
@@ -63,7 +69,7 @@
             </li>
             <hr class="bg-light mx-3">
             <li>
-                <a href="#"><i class="bi bi-gear me-2"></i> Configuración</a>
+                <a href="#"><i class="bi bi-check-circle me-2"></i>Control de Seguimiento</a>
             </li>
         </ul>
     </nav>

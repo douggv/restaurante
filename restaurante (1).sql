@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-01-2026 a las 02:26:42
+-- Tiempo de generación: 21-01-2026 a las 02:31:06
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -42,7 +42,8 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`id_cliente`, `nombre_cliente`, `telefono`, `email_cliente`, `fecha_registro`, `password`) VALUES
 (1, 'douglas', '123123', 'douglasgv0502@gmail.com', '2026-01-10 17:44:18', '$2y$10$.JopWlCIrIYSjP1JyzEW.Oddi1Av.TYXK2nlOFYjnftoNw6GHbKAS'),
-(2, 'gustavo', '123123213', 'gustavo@gmail.com', '2026-01-12 00:46:14', '$2y$10$XkAytx9AknUStSCuWdSmaunJ.3cSmQTLBILEucx.I5ACucn17GOM6');
+(2, 'gustavo', '123123213', 'gustavo@gmail.com', '2026-01-12 00:46:14', '$2y$10$XkAytx9AknUStSCuWdSmaunJ.3cSmQTLBILEucx.I5ACucn17GOM6'),
+(3, 'gustavo', 'afsdfsdf', 'gustavo222@gmail.com', '2026-01-16 22:14:36', '$2y$10$2LV1Y5KOvKbOlqdkh8Ct9uyNWjPK25BzvqVQ3MLOD3W8VS004TZU6');
 
 -- --------------------------------------------------------
 
@@ -101,6 +102,32 @@ CREATE TABLE `menu` (
   `descripcion` text DEFAULT NULL,
   `disponible` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `menu`
+--
+
+INSERT INTO `menu` (`id_comida`, `nombre_comida`, `tipo`, `categoria`, `precio`, `descripcion`, `disponible`) VALUES
+(1, 'Hamburguesa Clásica', 'Plato Fuerte', 'Carnes', 12.50, 'Carne de res, queso, lechuga y tomate', 1),
+(2, 'Pizza Margherita', 'Plato Fuerte', 'Italiana', 15.00, 'Salsa de tomate, mozzarella y albahaca', 1),
+(3, 'Tacos al Pastor', 'Plato Fuerte', 'Mexicana', 9.00, '3 tacos con piña, cebolla y cilantro', 1),
+(4, 'Ensalada César', 'Entrada', 'Ensaladas', 8.50, 'Lechuga romana, crotones y aderezo césar', 1),
+(5, 'Sopa de Tomate', 'Entrada', 'Sopas', 6.00, 'Sopa cremosa de tomates rostizados', 1),
+(6, 'Salmón a la Parrilla', 'Plato Fuerte', 'Pescados', 18.00, 'Filete de salmón con espárragos', 1),
+(7, 'Pasta Carbonara', 'Plato Fuerte', 'Italiana', 14.00, 'Pasta con crema, tocino y parmesano', 1),
+(8, 'Sushi Roll California', 'Plato Fuerte', 'Japonesa', 11.00, 'Cangrejo, aguacate y pepino', 1),
+(9, 'Ceviche de Camarón', 'Entrada', 'Mariscos', 13.00, 'Camarones marinados en limón y ají', 1),
+(10, 'Lasagna de Carne', 'Plato Fuerte', 'Italiana', 16.50, 'Capas de pasta con carne y bechamel', 1),
+(11, 'Pollo Curry', 'Plato Fuerte', 'India', 13.50, 'Pollo en salsa de curry con arroz basmati', 1),
+(12, 'Brownie con Helado', 'Postre', 'Dulces', 7.00, 'Brownie de chocolate caliente con vainilla', 1),
+(13, 'Cheesecake de Fresa', 'Postre', 'Dulces', 6.50, 'Pastel de queso con mermelada natural', 1),
+(14, 'Limonada Imperial', 'Bebida', 'Fríos', 3.50, 'Limonada fresca con hierbabuena', 1),
+(15, 'Vino Tinto Copo', 'Bebida', 'Alcohol', 5.00, 'Copa de vino de la casa', 1),
+(16, 'Risotto de Hongos', 'Plato Fuerte', 'Vegetariana', 17.00, 'Arroz cremoso con variedad de setas', 1),
+(17, 'Alitas BBQ', 'Entrada', 'Snacks', 10.00, '6 alitas bañadas en salsa barbacoa', 1),
+(18, 'Crema de Zapallo', 'Entrada', 'Sopas', 5.50, 'Sopa suave de calabaza y especias', 1),
+(19, 'Tiramisú', 'Postre', 'Dulces', 7.50, 'Clásico postre italiano con café', 1),
+(20, 'Café Espresso', 'Bebida', 'Calientes', 2.50, 'Café intenso de grano seleccionado', 1);
 
 -- --------------------------------------------------------
 
@@ -175,6 +202,14 @@ CREATE TABLE `roles` (
   `nombre_rol` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id_rol`, `nombre_rol`) VALUES
+(1, 'admin'),
+(2, 'mesero');
+
 -- --------------------------------------------------------
 
 --
@@ -188,6 +223,13 @@ CREATE TABLE `usuarios` (
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `id_rol_fk`, `nombre`, `email`, `password`) VALUES
+(1, 1, 'gustavo', 'gustavo@gmail.com', '$2y$10$.JopWlCIrIYSjP1JyzEW.Oddi1Av.TYXK2nlOFYjnftoNw6GHbKAS');
 
 --
 -- Índices para tablas volcadas
@@ -279,7 +321,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `comentarios`
@@ -303,7 +345,7 @@ ALTER TABLE `historial_visitas`
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_comida` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_comida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `mesas`
@@ -333,13 +375,13 @@ ALTER TABLE `restaurante_info`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
