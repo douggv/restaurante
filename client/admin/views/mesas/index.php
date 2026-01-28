@@ -77,7 +77,7 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            <a href="edit.php?id=<?php echo $mesa['id_mesa']; ?>" class="btn btn-sm btn-outline-info" title="Editar"><i class="bi bi-pencil"></i></a>
+                                            <a href="update.php?id=<?php echo $mesa['id_mesa']; ?>" class="btn btn-sm btn-outline-info" title="Editar"><i class="bi bi-pencil"></i></a>
                                             <a href="delete.php?id=<?php echo $mesa['id_mesa']; ?>" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></a>
                                         </div>
                                     </td>

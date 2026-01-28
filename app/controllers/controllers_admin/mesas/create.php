@@ -2,7 +2,7 @@
 <?php include 'read.php'; ?>
 
 <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST')  { 
         $nro_mesa = $_POST['nro_mesa'];
         $sillas = $_POST['sillas'];
         $estado = "disponible";
