@@ -16,7 +16,16 @@
         header('Location: ' . $URL . '/login.php');
         exit(); 
     } else {
+        
         $usuario_sesion = $_SESSION['sesion'];
+        $sql2 = "SELECT * FROM clientes WHERE email_cliente = :usuario_sesion LIMIT 1";
+        $query2 = $pdo->prepare($sql2);
+        $query2->bindParam(':usuario_sesion', $usuario_sesion);
+        $query2->execute();
+        $cliente = $query2->fetch(PDO::FETCH_ASSOC);
+
+        $id_cliente_sesion = $cliente['id_cliente'];
+        $nombre_cliente_sesion = $cliente['nombre_cliente'];
     }
 ?>
 

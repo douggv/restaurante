@@ -79,7 +79,7 @@
 
         <ul class="list-unstyled components">
             <li class="active"><a href="#"><i class="bi bi-speedometer2 me-2"></i>Panel</a></li>
-            <li><a href="#"><i class="bi bi-calendar me-2"></i>Reservas</a></li>
+            <li><a href="<?php echo $URL; ?>/client/admin/views/reservas/index.php"><i class="bi bi-calendar me-2"></i>Reservas</a></li>
             <li><a href="<?php echo $URL; ?>/client/admin/views/mesas/index.php"><i class="bi bi-table me-2"></i>Gestión de Mesas</a></li>
             <li><a href="<?php echo $URL; ?>/client/admin/views/menu/index.php"><i class="bi bi-journal-text me-2"></i> Ver Platos</a></li>
             <li><a href="<?php echo $URL; ?>/client/admin/views/menu/create.php"><i class="bi bi-plus-circle me-2"></i> Agregar Plato</a></li>

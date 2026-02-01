@@ -1,69 +1,110 @@
 <?php include '../layouts/verificacion.php'; ?>   
 <?php include '../layouts/parte1.php'; ?>    
 <?php include '../layouts/nav.php'; ?>
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if(isset($_SESSION['mensaje'])):
+    $mensaje = $_SESSION['mensaje'];
+    // Convertimos las clases de alerta suaves a colores sólidos y llamativos
+    // Si $color viene como 'alert-success', usaremos 'bg-success'
+    $tipo_color = str_replace('alert-', 'bg-', $_SESSION['color']);
+    // Si no tiene el prefijo alert, nos aseguramos que tenga bg-
+    if (strpos($tipo_color, 'bg-') === false) $tipo_color = 'bg-' . $tipo_color;
+?>
+    <div id="alerta-flotante" 
+         class="alert <?= $tipo_color ?> text-white alert-dismissible fade show position-fixed start-50 translate-middle-x shadow-lg" 
+         style="z-index: 10000; min-width: 350px; text-align: center; top: 100px; border: 2px solid rgba(0,0,0,0.1); border-radius: 12px;" 
+         role="alert">
+        
+        <div class="d-flex align-items-center justify-content-center">
+            <i class="bi bi-check-circle-fill me-2 fs-4"></i> 
+            <strong class="fs-5"><?= $mensaje ?></strong>
+        </div>
+        
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 
-<style>
-        :root {
-            --dorado: #c5a059;
-            --oscuro: #1a1a1a;
-        }
+    <script>
+        setTimeout(function() {
+            const alerta = document.getElementById('alerta-flotante');
+            if (alerta) {
+                alerta.classList.remove('show');
+                setTimeout(() => alerta.remove(), 500);
+            }
+        }, 4000); // 4 segundos para que dé tiempo a leerla bien
+    </script>
 
-        body { font-family: 'Poppins', sans-serif; }
-        h1, h2, .navbar-brand { font-family: 'Playfair Display', serif; }
+<?php 
+    unset($_SESSION['mensaje']);
+    unset($_SESSION['color']);
+    endif; 
+?>
+    
+    
+    <style>
+            :root {
+                --dorado: #c5a059;
+                --oscuro: #1a1a1a;
+            }
 
-        /* Navbar */
-        .navbar {
-            background-color: rgba(26, 26, 26, 0.95);
-            padding: 15px 0;
-            transition: all 0.3s;
-        }
-        .navbar-brand { color: var(--dorado) !important; font-size: 1.8rem; }
-        .nav-link { color: #fff !important; margin: 0 10px; text-transform: uppercase; font-size: 0.9rem; }
-        .nav-link:hover { color: var(--dorado) !important; }
+            body { font-family: 'Poppins', sans-serif; }
+            h1, h2, .navbar-brand { font-family: 'Playfair Display', serif; }
 
-        /* Hero Section */
-        .hero {
-            height: 90vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1470&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            color: white;
-            text-align: center;
-        }
-        .hero h1 { font-size: 4.5rem; margin-bottom: 20px; }
-        .btn-reserva {
-            background-color: var(--dorado);
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 0;
-            font-weight: 600;
-        }
+            /* Navbar */
+            .navbar {
+                background-color: rgba(26, 26, 26, 0.95);
+                padding: 15px 0;
+                transition: all 0.3s;
+            }
+            .navbar-brand { color: var(--dorado) !important; font-size: 1.8rem; }
+            .nav-link { color: #fff !important; margin: 0 10px; text-transform: uppercase; font-size: 0.9rem; }
+            .nav-link:hover { color: var(--dorado) !important; }
 
-        /* Secciones */
-        .section-padding { padding: 80px 0; }
-        .section-title { position: relative; padding-bottom: 15px; margin-bottom: 40px; }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 60px;
-            height: 3px;
-            background: var(--dorado);
-            bottom: 0;
-            left: 0;
-        }
+            /* Hero Section */
+            .hero {
+                height: 90vh;
+                background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                            url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1470&auto=format&fit=crop');
+                background-size: cover;
+                background-position: center;
+                display: flex;
+                align-items: center;
+                color: white;
+                text-align: center;
+            }
+            .hero h1 { font-size: 4.5rem; margin-bottom: 20px; }
+            .btn-reserva {
+                background-color: var(--dorado);
+                color: white;
+                padding: 12px 30px;
+                border: none;
+                border-radius: 0;
+                font-weight: 600;
+            }
 
-        /* Menu Preview */
-        .card-menu {
-            border: none;
-            transition: transform 0.3s;
-        }
-        .card-menu:hover { transform: translateY(-10px); }
-        .price { color: var(--dorado); font-weight: bold; font-size: 1.2rem; }
-</style>
+            /* Secciones */
+            .section-padding { padding: 80px 0; }
+            .section-title { position: relative; padding-bottom: 15px; margin-bottom: 40px; }
+            .section-title::after {
+                content: '';
+                position: absolute;
+                width: 60px;
+                height: 3px;
+                background: var(--dorado);
+                bottom: 0;
+                left: 0;
+            }
+
+            /* Menu Preview */
+            .card-menu {
+                border: none;
+                transition: transform 0.3s;
+            }
+            .card-menu:hover { transform: translateY(-10px); }
+            .price { color: var(--dorado); font-weight: bold; font-size: 1.2rem; }
+    </style>
 
 <header class="hero">
         <div class="container">
