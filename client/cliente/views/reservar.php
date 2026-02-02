@@ -1,47 +1,7 @@
 <?php include '../layouts/verificacion.php'; ?>   
 <?php include '../layouts/parte1.php'; ?>    
 <?php include '../layouts/nav.php'; ?>
-
-
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-    if(isset($_SESSION['mensaje'])):
-        $mensaje = $_SESSION['mensaje'];
-        $color = $_SESSION['color'];
-?>
-    <div id="alerta-flotante" 
-         class="<?= $color ?> alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 shadow-lg" 
-         style="z-index: 9999; min-width: 320px; text-align: center; margin-top: 160px;" 
-         role="alert">
-        
-        <i class="bi bi-info-circle me-2"></i> <strong><?= $mensaje ?></strong>
-        
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <script>
-        // Esperar 3 segundos y cerrar la alerta usando Bootstrap
-        setTimeout(function() {
-            const alerta = document.getElementById('alerta-flotante');
-            if (alerta) {
-                // Esto aplica la animación de desvanecimiento de Bootstrap
-                alerta.classList.remove('show');
-                // Eliminar el elemento del DOM después de la animación (0.5s después)
-                setTimeout(() => alerta.remove(), 500);
-            }
-        }, 3000);
-    </script>
-
-<?php 
-    // LIMPIEZA INMEDIATA: Una vez que PHP genera el HTML, borramos la sesión
-    unset($_SESSION['mensaje']);
-    unset($_SESSION['color']);
-    endif; 
-?>
-
-
+<?php include '../../../alert.php'; ?>
 
 <div class="container mt-4">
     <div id='calendar'></div>
@@ -56,18 +16,19 @@ if (session_status() === PHP_SESSION_NONE) {
       </div>
       <form action="../../../app/controllers/controllers_cliente/reservar.php" method="POST">
         <div class="modal-body">
-          <input type="hidden" name="id_cliente" value="<?php echo $id_cliente_sesion; // Asegúrate que la variable sea la correcta ?>">
-          <input type="hidden" name="id_mesa" value="<?php echo htmlspecialchars($_GET['id']); ?>">
+          <input type="hidden" name="id_cliente" value="<?php echo $id_cliente_sesion; ?>">
+          <input type="hidden" name="id_mesa" id="id_mesa_input" value="<?php echo htmlspecialchars($_GET['id']); ?>">
           <input readonly type="text" class="form-control mb-3" value="Cliente <?php echo $nombre_cliente_sesion; ?>">
+          
           <div class="mb-3">
-            <label class="form-label">Fecha Seleccionada</label>
-            <input type="text" id="fecha_visual" class="form-control" readonly>
+            <label class="form-label fw-bold">Fecha Seleccionada</label>
+            <input type="text" id="fecha_visual" class="form-control bg-light" readonly>
             <input type="hidden" name="fecha_reserva" id="fecha_reserva">
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Bloque de 2 horas (Obligatorio):</label>
-            <select name="bloque_horario" class="form-select" required>
+            <label class="form-label fw-bold">Bloque de 2 horas (Obligatorio):</label>
+            <select name="bloque_horario" id="select_bloque" class="form-select" required>
               <option value="">-- Seleccione un horario --</option>
               <option value="12:00:00-14:00:00">12:00 PM - 02:00 PM</option>
               <option value="14:00:00-16:00:00">02:00 PM - 04:00 PM</option>
@@ -78,7 +39,7 @@ if (session_status() === PHP_SESSION_NONE) {
           </div>
           
           <div class="mb-3">
-            <label class="form-label">Título del Evento</label>
+            <label class="form-label fw-bold">Título del Evento</label>
             <input type="text" name="titulo_evento" class="form-control" placeholder="Ej: Cena de aniversario">
           </div>
         </div>
@@ -94,29 +55,54 @@ if (session_status() === PHP_SESSION_NONE) {
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-    
-    // Inicializar el Modal correctamente con Bootstrap 5
     var myModalElement = document.getElementById('modalReserva');
     var myModal = new bootstrap.Modal(myModalElement);
+    var selectBloque = document.getElementById('select_bloque');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       locale: 'es',
-      // IMPORTANTE: dateClick requiere el script global de FullCalendar 6
       dateClick: function(info) {
-        // Llenamos los inputs
-        document.getElementById('fecha_reserva').value = info.dateStr;
-        document.getElementById('fecha_visual').value = info.dateStr;
+        var fecha = info.dateStr;
+        var idMesa = document.getElementById('id_mesa_input').value;
 
-        // Mostramos el modal
-        myModal.show();
+        // 1. Resetear el select antes de la consulta
+        Array.from(selectBloque.options).forEach(opt => {
+            opt.disabled = false;
+            opt.text = opt.text.replace(" (Ocupado)", "");
+            opt.style.backgroundColor = "";
+        });
+
+        // 2. Intentar consultar horas ocupadas
+        // IMPORTANTE: Asegúrate que consultar_horas.php esté en la misma carpeta que este archivo
+        fetch('consultar_horas.php?fecha=' + fecha + '&id_mesa=' + idMesa)
+          .then(response => {
+            if (!response.ok) throw new Error('Error en servidor');
+            return response.json();
+          })
+          .then(ocupados => {
+            // 3. Bloquear las horas que devuelve el PHP
+            Array.from(selectBloque.options).forEach(opt => {
+                if (ocupados.includes(opt.value)) {
+                    opt.disabled = true;
+                    opt.text += " (Ocupado)";
+                    opt.style.backgroundColor = "#e9ecef";
+                }
+            });
+          })
+          .catch(error => console.error('Error al consultar horas:', error))
+          .finally(() => {
+            // 4. ESTO ABRE EL MODAL pase lo que pase
+            document.getElementById('fecha_reserva').value = fecha;
+            document.getElementById('fecha_visual').value = fecha;
+            myModal.show();
+          });
       },
-      // Esto sirve para que se vea la manito al pasar sobre un día
       navLinks: true, 
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek'
+        right: 'dayGridMonth'
       }
     });
     
