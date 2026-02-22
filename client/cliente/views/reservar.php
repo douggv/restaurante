@@ -1,35 +1,72 @@
-<?php include '../layouts/verificacion.php'; ?>   
-<?php include '../layouts/parte1.php'; ?>    
-<?php include '../layouts/nav.php'; ?>
-<?php include '../../../alert.php'; ?>
+<?php 
+include '../layouts/verificacion.php'; 
+include '../layouts/parte1.php'; 
+include '../layouts/nav.php'; 
+include '../../../alert.php'; 
+
+// --- LÓGICA PARA OBTENER EVENTOS (SE MANTIENE IGUAL) ---
+if (isset($_GET['get_eventos'])) {
+    $id_mesa_query = $_GET['id_mesa_fk'] ?? 0;
+    $sql_eventos = "SELECT titulo_evento, fecha_reserva, bloque_horario FROM reservas WHERE id_mesa_fk = :id_mesa";
+    $query_eventos = $pdo->prepare($sql_eventos);
+    $query_eventos->execute(['id_mesa' => $id_mesa_query]);
+    $resultados = $query_eventos->fetchAll(PDO::FETCH_ASSOC);
+
+    $eventos_calendario = [];
+    foreach ($resultados as $row) {
+        $horas = explode('-', $row['bloque_horario']);
+        $inicio = $horas[0];
+        $fin = $horas[1];
+
+        $eventos_calendario[] = [
+            'title' => $row['titulo_evento'] ?: 'Ocupado',
+            'start' => $row['fecha_reserva'] . 'T' . $inicio,
+            'end'   => $row['fecha_reserva'] . 'T' . $fin,
+            'color' => '#e74c3c',
+            'textColor' => '#ffffff'
+        ];
+    }
+    header('Content-Type: application/json');
+    echo json_encode($eventos_calendario);
+    exit;
+}
+
+$id_mesa_actual = htmlspecialchars($_GET['id']);
+?>
 
 <div class="container mt-4">
-    <div id='calendar'></div>
+    <div class="card shadow">
+        <div class="card-header bg-white">
+            <h4 class="mb-0 text-dark">Calendario de Disponibilidad - Mesa #<?php echo $id_mesa_actual; ?></h4>
+        </div>
+        <div class="card-body">
+            <div id='calendar'></div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="modalReserva" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">Reservar Mesa #<?php echo $_GET['id']; ?></h5>
+        <h5 class="modal-title">Nueva Reserva - Mesa #<?php echo $id_mesa_actual; ?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="../../../app/controllers/controllers_cliente/reservar.php" method="POST">
         <div class="modal-body">
           <input type="hidden" name="id_cliente" value="<?php echo $id_cliente_sesion; ?>">
-          <input type="hidden" name="id_mesa" id="id_mesa_input" value="<?php echo htmlspecialchars($_GET['id']); ?>">
-          <input readonly type="text" class="form-control mb-3" value="Cliente <?php echo $nombre_cliente_sesion; ?>">
+          <input type="hidden" name="id_mesa" id="id_mesa_input" value="<?php echo $id_mesa_actual; ?>">
           
           <div class="mb-3">
-            <label class="form-label fw-bold">Fecha Seleccionada</label>
+            <label class="form-label fw-bold">Fecha</label>
             <input type="text" id="fecha_visual" class="form-control bg-light" readonly>
             <input type="hidden" name="fecha_reserva" id="fecha_reserva">
           </div>
 
           <div class="mb-3">
-            <label class="form-label fw-bold">Bloque de 2 horas (Obligatorio):</label>
+            <label class="form-label fw-bold">Seleccionar Horario</label>
             <select name="bloque_horario" id="select_bloque" class="form-select" required>
-              <option value="">-- Seleccione un horario --</option>
+              <option value="">-- Seleccione un bloque --</option>
               <option value="12:00:00-14:00:00">12:00 PM - 02:00 PM</option>
               <option value="14:00:00-16:00:00">02:00 PM - 04:00 PM</option>
               <option value="16:00:00-18:00:00">04:00 PM - 06:00 PM</option>
@@ -39,13 +76,13 @@
           </div>
           
           <div class="mb-3">
-            <label class="form-label fw-bold">Título del Evento</label>
-            <input type="text" name="titulo_evento" class="form-control" placeholder="Ej: Cena de aniversario">
+            <label class="form-label fw-bold">Motivo/Título</label>
+            <input type="text" name="titulo_evento" class="form-control" placeholder="Ej: Cumpleaños" required>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary">Reservar ahora</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Reservar</button>
         </div>
       </form>
     </div>
@@ -55,59 +92,86 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-    var myModalElement = document.getElementById('modalReserva');
-    var myModal = new bootstrap.Modal(myModalElement);
+    var myModal = new bootstrap.Modal(document.getElementById('modalReserva'));
     var selectBloque = document.getElementById('select_bloque');
+    var idMesa = "<?php echo $id_mesa_actual; ?>";
+
+    // Obtener fecha actual en formato YYYY-MM-DD para FullCalendar
+    var today = new Date().toISOString().split('T')[0];
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       locale: 'es',
-      dateClick: function(info) {
-        var fecha = info.dateStr;
-        var idMesa = document.getElementById('id_mesa_input').value;
-
-        // 1. Resetear el select antes de la consulta
-        Array.from(selectBloque.options).forEach(opt => {
-            opt.disabled = false;
-            opt.text = opt.text.replace(" (Ocupado)", "");
-            opt.style.backgroundColor = "";
-        });
-
-        // 2. Intentar consultar horas ocupadas
-        // IMPORTANTE: Asegúrate que consultar_horas.php esté en la misma carpeta que este archivo
-        fetch('consultar_horas.php?fecha=' + fecha + '&id_mesa=' + idMesa)
-          .then(response => {
-            if (!response.ok) throw new Error('Error en servidor');
-            return response.json();
-          })
-          .then(ocupados => {
-            // 3. Bloquear las horas que devuelve el PHP
-            Array.from(selectBloque.options).forEach(opt => {
-                if (ocupados.includes(opt.value)) {
-                    opt.disabled = true;
-                    opt.text += " (Ocupado)";
-                    opt.style.backgroundColor = "#e9ecef";
-                }
-            });
-          })
-          .catch(error => console.error('Error al consultar horas:', error))
-          .finally(() => {
-            // 4. ESTO ABRE EL MODAL pase lo que pase
-            document.getElementById('fecha_reserva').value = fecha;
-            document.getElementById('fecha_visual').value = fecha;
-            myModal.show();
-          });
+      
+      events: window.location.href + '&get_eventos=1&id_mesa_fk=' + idMesa,
+      
+      // Bloquea visualmente los días pasados (opcional pero recomendado)
+      validRange: {
+        start: today
       },
-      navLinks: true, 
+
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
         right: 'dayGridMonth'
+      },
+
+      dateClick: function(info) {
+        var fechaSeleccionada = info.dateStr;
+
+        // --- NUEVA VALIDACIÓN ---
+        // Comparamos la fecha seleccionada con la fecha de hoy
+        if (fechaSeleccionada < today) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Fecha no válida',
+                text: 'No puedes realizar reservas en fechas pasadas.',
+                confirmButtonColor: '#3085d6'
+            });
+            return; // Detiene la ejecución y no abre el modal
+        }
+
+        // --- EL RESTO DEL CÓDIGO SIGUE IGUAL ---
+        Array.from(selectBloque.options).forEach(opt => {
+            opt.disabled = false;
+            opt.text = opt.text.replace(" (Ocupado)", "");
+            opt.style.color = "";
+        });
+
+        fetch('consultar_horas.php?fecha=' + fechaSeleccionada + '&id_mesa=' + idMesa)
+          .then(response => response.json())
+          .then(ocupados => {
+            Array.from(selectBloque.options).forEach(opt => {
+                if (ocupados.includes(opt.value)) {
+                    opt.disabled = true;
+                    opt.text += " (Ocupado)";
+                    opt.style.color = "red";
+                }
+            });
+          })
+          .catch(error => console.error('Error:', error))
+          .finally(() => {
+            document.getElementById('fecha_reserva').value = fechaSeleccionada;
+            document.getElementById('fecha_visual').value = fechaSeleccionada;
+            myModal.show();
+          });
       }
     });
     
     calendar.render();
   });
 </script>
+
+<style>
+    #calendar { background: #ffffff; padding: 10px; border-radius: 5px; }
+    .fc-event { font-size: 0.85em; cursor: help; }
+    .fc-day-today { background: #f8f9fa !important; }
+    
+    /* Estilo para días deshabilitados (pasados) */
+    .fc-day-past {
+        background-color: #f2f2f2 !important;
+        cursor: not-allowed !important;
+    }
+</style>
 
 <?php include '../layouts/parte2.php'; ?>

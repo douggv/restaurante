@@ -85,64 +85,13 @@
                 <div class="col-lg-8 mx-auto">
                     <h1 class="display-2">Sabores que Cuentan Historias</h1>
                     <p class="lead mb-4">Reserva tu mesa hoy y disfruta de una experiencia gastronómica inigualable.</p>
-                    <a href="reservas.php" class="btn btn-reserva btn-lg">RESERVAR MESA</a>
+                    <a href="login.php" class="btn btn-reserva btn-lg">RESERVAR MESA</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="nosotros" class="section-padding container">
-        <div class="row align-items-center">
-            <div class="col-md-6 mb-4 mb-md-0">
-                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1470&auto=format&fit=crop" class="img-fluid rounded shadow" alt="Nuestro Restaurante">
-            </div>
-            <div class="col-md-6 ps-md-5">
-                <h2 class="section-title">Sobre Nosotros</h2>
-                <p class="text-muted">Desde 1995, nos hemos dedicado a perfeccionar el arte de la cocina fusión. Nuestro compromiso es utilizar ingredientes frescos de productores locales para llevar a su mesa lo mejor de nuestra tierra.</p>
-                <p>Ambiente acogedor, servicio de primera y una carta de vinos seleccionada para cada ocasión.</p>
-                <a href="#" class="text-decoration-none fw-bold" style="color: var(--dorado);">Nuestra Historia <i class="bi bi-arrow-right"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <section id="menu" class="section-padding bg-light">
-        <div class="container text-center">
-            <h2 class="section-title text-start">Nuestro Menú</h2>
-            <div class="row mt-5">
-                <div class="col-md-4 mb-4">
-                    <div class="card card-menu h-100 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1381&auto=format&fit=crop" class="card-img-top" alt="Pizza">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Pizza Artesanal</h5>
-                            <p class="card-text text-muted small">Masa madre, tomates cherry y albahaca fresca.</p>
-                            <p class="price">$15.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card card-menu h-100 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7bb7445?q=80&w=1380&auto=format&fit=crop" class="card-img-top" alt="Pasta">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Pasta Carbonara</h5>
-                            <p class="card-text text-muted small">Receta original italiana con pecorino y guanciale.</p>
-                            <p class="price">$18.50</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card card-menu h-100 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1469&auto=format&fit=crop" class="card-img-top" alt="Carnes">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Corte Prime</h5>
-                            <p class="card-text text-muted small">Angus certificado madurado por 30 días.</p>
-                            <p class="price">$32.00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <a href="menu_completo.php" class="btn btn-outline-dark mt-4">VER MENÚ COMPLETO</a>
-        </div>
-    </section>
+    
 
     <footer class="bg-dark text-white pt-5 pb-3">
         <div class="container">

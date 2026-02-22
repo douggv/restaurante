@@ -19,6 +19,12 @@
                 <li class="nav-item">
                     <a class="nav-link text-white text-uppercase small px-3" href="../views/mesas.php">Reservar Mesa</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white text-uppercase small px-3" href="../views/notificaciones.php">Notificaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white text-uppercase small px-3" href="../views/historial.php">Historial</a>
+                </li>
 
                 <?php if (isset($usuario_sesion)): ?>
                     <li class="nav-item ms-lg-3">

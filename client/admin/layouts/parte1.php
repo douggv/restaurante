@@ -78,15 +78,15 @@
         </div>
 
         <ul class="list-unstyled components">
-            <li class="active"><a href="#"><i class="bi bi-speedometer2 me-2"></i>Panel</a></li>
+            <li class="active"><a href="<?php echo $URL; ?>/client/admin/views/"><i class="bi bi-speedometer2 me-2"></i>Panel</a></li>
             <li><a href="<?php echo $URL; ?>/client/admin/views/reservas/index.php"><i class="bi bi-calendar me-2"></i>Reservas</a></li>
             <li><a href="<?php echo $URL; ?>/client/admin/views/mesas/index.php"><i class="bi bi-table me-2"></i>Gestión de Mesas</a></li>
             <li><a href="<?php echo $URL; ?>/client/admin/views/menu/index.php"><i class="bi bi-journal-text me-2"></i> Ver Platos</a></li>
             <li><a href="<?php echo $URL; ?>/client/admin/views/menu/create.php"><i class="bi bi-plus-circle me-2"></i> Agregar Plato</a></li>
-            <li><a href="#"><i class="bi bi-tags me-2"></i> Categorías</a></li>
-            <li><a href="#"><i class="bi bi-people me-2"></i> Usuarios</a></li>
+            <li><a href="<?php echo $URL; ?>/client/admin/views/meseras/index.php"><i class="bi bi-people me-2"></i> Meseras</a></li>
             <hr class="bg-light mx-3">
-            <li><a href="#"><i class="bi bi-check-circle me-2"></i>Control</a></li>
+            <li><a href="<?php echo $URL; ?>/client/admin/views/control/index.php"><i class="bi bi-check-circle me-2"></i>Control</a></li>
+            <li><a href="<?php echo $URL; ?>/client/admin/views/comentarios/index.php"><i class="bi bi-chat-square-text me-2"></i>Comentarios</a></li>
         </ul>
     </nav>
 

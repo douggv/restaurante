@@ -112,7 +112,7 @@ if(isset($_SESSION['mensaje'])):
                 <div class="col-lg-8 mx-auto">
                     <h1 class="display-2">Sabores que Cuentan Historias</h1>
                     <p class="lead mb-4">Reserva tu mesa hoy y disfruta de una experiencia gastronómica inigualable.</p>
-                    <a href="reservas.php" class="btn btn-reserva btn-lg">RESERVAR MESA</a>
+                    <a href="mesas.php" class="btn btn-reserva btn-lg">RESERVAR MESA</a>
                 </div>
             </div>
         </div>

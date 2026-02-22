@@ -18,10 +18,16 @@
     }
     
     if($contador > 0){
-        session_start();
-        $_SESSION['sesion'] = $email;
-        header('Location: '.$URL.'/client/admin/views/index.php');
-
+        if($id_rol_fk == 1){
+            session_start();
+            $_SESSION['sesion'] = $email;
+            header('Location: '.$URL.'/client/admin/views/index.php');
+        } else if($id_rol_fk == 2){
+            session_start();
+            $_SESSION['sesionmesero'] = $email;
+            header('Location: '.$URL.'/client/mesero/views/index.php');
+        }
+       
             
     } else {
         session_start();
