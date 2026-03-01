@@ -60,9 +60,9 @@
                             <td><?php echo $item['descripcion']; ?></td>
                             <td class="text-center">
                                 <?php if($item['disponible'] == 1): ?>
-                                    <span class="badge badge-success">Disponible</span>
+                                    <span style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 5px;">Disponible</span>
                                 <?php else: ?>
-                                    <span class="badge badge-danger">No Disponible</span>
+                                    <span style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 5px;">No Disponible</span>
                                 <?php endif; ?>
                             </td>
                             <td class="text-center">
